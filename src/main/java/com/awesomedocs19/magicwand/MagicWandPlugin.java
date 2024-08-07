@@ -7,7 +7,9 @@ public class MagicWandPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("MagicWandPlugin enabled!");
         getServer().getPluginManager().registerEvents(new WandEventListener(this), this);
+        getCommand("magicwand").setExecutor(new MagicWandCommand(this));
     }
+
 
     @Override
     public void onDisable() {
