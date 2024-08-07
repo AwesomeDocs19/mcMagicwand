@@ -1,0 +1,4 @@
+name: MagicWandPlugin
+version: 1.0
+main: com.awesomedocs19.magicwand.MagicWandPlugin
+api-version: 1.18
