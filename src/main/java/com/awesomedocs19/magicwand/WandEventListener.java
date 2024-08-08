@@ -19,29 +19,29 @@ public class WandEventListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = event.getPlayer();
-            if (player.getInventory().getItemInMainHand().getType() == Material.STICK &&
-                player.getInventory().getItemInMainHand().getCustomModelData() == 1) {
+            ItemStack item = player.getInventory().getItemInMainHand();
+            
+            if (item.getType() == Material.STICK && item.hasItemMeta()) {
+                int modelData = item.getItemMeta().getCustomModelData();
                 
-                Location loc = player.getLocation();
-                Vector direction = loc.getDirection().multiply(2);
-                Fireball fireball = (Fireball) player.getWorld().spawnEntity(loc.add(direction), EntityType.FIREBALL);
-                fireball.setDirection(direction);
-                
-                player.sendMessage("Watch out, fireball launched!");
-            }
-            if (player.getInventory().getItemInMainHand().getType() == Material.STICK &&
-                player.getInventory().getItemInMainHand().getCustomModelData() == 2) {
-
-                Location loc = player.getLocation();
-                loc.setX(loc.getX() + 10);
-                player.teleport(loc);
-                
-                player.sendMessage("teleported...");
+                if (modelData == 1) {
+                    Location loc = player.getLocation();
+                    Vector direction = loc.getDirection().multiply(2);
+                    Fireball fireball = (Fireball) player.getWorld().spawnEntity(loc.add(direction), EntityType.FIREBALL);
+                    fireball.setDirection(direction);
+                    player.sendMessage("Watch out, fireball launched!");
+                } else if (modelData == 2) {
+                    Location loc = player.getLocation();
+                    loc.setX(loc.getX() + 10);
+                    player.teleport(loc);
+                    player.sendMessage("teleported...");
+                }
             }
         }
     }
+
 }
